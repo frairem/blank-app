@@ -6,6 +6,7 @@ import json
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+import re
 
 # --------------------
 # Load environment and API key
@@ -65,7 +66,14 @@ def generate_sections(cv_text, section_name):
         messages=[{"role": "user", "content": prompt + "\n\nCandidate CV:\n" + cv_text}],
         temperature=0.3
     )
-    return response.choices[0].message.content.strip()
+    raw_text = response.choices[0].message.content.strip()
+    
+    # Try to extract JSON from raw_text
+    match = re.search(r'\{.*\}', raw_text, re.DOTALL)
+    if match:
+        return match.group(0)
+    else:
+        return "{}"  # fallback empty dict
 
 
 def generate_roles(cv_text):
@@ -116,7 +124,13 @@ def generate_one_pager(cv_file):
 
     # Fixed sections
     sections_json = generate_sections(cv_text, sections)
-    response_dic = json.loads(sections_json)
+
+    try:
+        response_dic = json.loads(sections_json)
+    except json.JSONDecodeError:
+        st.error("❌ Could not parse OpenAI response. Raw output from OpenAI:")
+        st.text(sections_json)
+        st.stop()
 
     # Add roles
     roles = generate_roles(cv_text)
