@@ -159,11 +159,13 @@ if uploaded_pdf:
         try:
             excel_data = generate_one_pager(uploaded_pdf)
             st.success("✅ Excel file generated successfully!")
-            st.download_button(
+            download_clicked = st.download_button(
                 label="💾 Download Excel",
                 data=excel_data,
                 file_name="one_pager_summary.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+            if download_clicked:
+                st.info("📥 Your Excel file is being downloaded...")
         except Exception as e:
             st.error(f"❌ Error: {e}")
