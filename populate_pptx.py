@@ -38,7 +38,12 @@ def populate_pptx(df_text):
     prs = Presentation('data/input/SC&O OP VACIO - TEMPLATE 3 - New.pptx')
     slide = prs.slides[0]
 
+    # Define sections where bullets should be applied
+    bullet_sections = {"industry experience", "functional experience", "certifications/training"}
+
     for index, row in df_text.iterrows():
+        section_name = row["section_name"].strip().lower()
+        new_text = str(row["output"]).strip()
         for shape in slide.shapes:
             if not shape.has_text_frame:
                 continue
@@ -48,16 +53,19 @@ def populate_pptx(df_text):
 
             text_frame = shape.text_frame
             text_frame.clear()
-            new_text = row['output']
+            # new_text = row['output']
 
-            # Split and format lines
+            # --- Format lines depending on section ---
             lines = new_text.splitlines()
-            if row['section_name'].startswith('Role'):
-                # First line (title) without bullet and in bold
+            if section_name.startswith("role"):
+                # Keep title without bullet and make it bold
                 title_line = f"**{lines[0].strip()}**"
                 formatted_lines = "\n".join([title_line] + [f"• {line}" for line in lines[1:]])
-            else:
+            elif section_name in bullet_sections:
                 formatted_lines = "\n".join([f"• {line}" for line in lines])
+            else:
+                # No bullets for other sections
+                formatted_lines = "\n".join(lines)
 
             text_frame.text = formatted_lines
 
@@ -71,7 +79,7 @@ def populate_pptx(df_text):
                     run.font.name = "Graphik Black"
                     run.font.size = Pt(42)
                     run.font.color.rgb = RGBColor(255, 255, 255)
-                    run.text = run.text.replace("•", "", 1).upper().strip()
+                    run.text = run.text.upper().strip()
 
                 # Handle TOWER formatting
                 elif shape.name.strip().lower() == 'tower':
@@ -79,7 +87,7 @@ def populate_pptx(df_text):
                     run.font.name = "Graphik Black"
                     run.font.size = Pt(24)
                     run.font.color.rgb = RGBColor(255, 255, 255)
-                    run.text = run.text.replace("•", "", 1).strip()
+                    run.text = run.text.upper().strip()
 
                 # Default formatting for other sections
                 else:
