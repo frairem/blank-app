@@ -38,24 +38,29 @@ def generate_sections(cv_text, section_name):
 
     Section details:
     - NAME: Candidate’s name.
-    - TOWER: Choose ONLY ONE → SAP ARIBA, SAP S/4HANA, or CONTROL TOWER.
+    - TOWER: Choose ONLY ONE → SAP ARIBA, SAP S/4HANA, CONTROL TOWER or ORACLE.
         • CONTROL TOWER → mentions SQL, Python, R, Power BI, Tableau, Looker, Alteryx, ETL, analytics, ML, automation, software development or data-driven tasks.
         • SAP S/4HANA → SAP modules (FI, CO, MM, SD, PP, PM, etc.), Fiori, ABAP, or S/4HANA implementations.
         • SAP ARIBA → procurement, sourcing, supplier, contracts, catalogs, SRM, or Ariba modules.
+        • ORACLE → Oracle ERP Cloud, Oracle E-Business Suite (EBS), Oracle Fusion, or tasks related to financials, procurement, supply chain, or HCM using Oracle technologies.
         • If both SAP and data skills appear, pick CONTROL TOWER only if analytics/data focus is dominant.
     - PROFILE OVERVIEW: One concise paragraph summarizing the candidate’s experience, skills, expertise, and key achievements. No names or languages. Bold **keywords**.
-    - PROFESSIONAL EDUCATION: List only degree names, separated by line breaks. Do NOT repeat information. Do NOT mention High School information.
-    - INDUSTRY EXPERIENCE: Line-separated list of industries mapped to Accenture taxonomy. Should only be one cell, don't create Industry per line. Map industries as follows:
-        Communications, Media & Technology → Communications, Media & Entertainment, High Tech, Software & Platforms
-        Financial Services → Banking, Capital Markets, Insurance
-        Health & Public Service → Health, Public Service
-        Products → Consumer Goods & Services, Life Sciences, Retail, Industrial, Automotive, Travel
-        Resources → Energy, Chemicals, Utilities, Natural Resources
-    - FUNCTIONAL EXPERIENCE: Line-separated list of functional expertise or focus areas.
-        Each line should be short, max 3-5 words per line (~150 characters total for all lines as maximum).
-        Only include key skills, modules, processes, or tools.
-        Do NOT write sentences, achievements, or explanations.
-        Example: "SAP FI/MM/PM configuration, Fiori interfaces, UAT testing, Process automation, Master data management"
+    - PROFESSIONAL EDUCATION: List university-level degrees (e.g., Bachelor’s or Master’s), separated by line breaks. Do NOT repeat information. Do NOT mention High School information.
+    - INDUSTRY EXPERIENCE: Line-separated list of sub-industries mapped to Accenture taxonomy (https://www.accenture.com/us-en/services). 
+        This should be only one sub-industry per line. Map sub-industries as follows: Aerospace and Defense, Automotive, Banking, Capital Markets, 
+        Chemicals, Communications and Media, Consumer Goods and Services, Energy, Health, High Tech, Industrial, Insurance, Life Science, Natural Resources, 
+        Public Service, Private Equity, Retail, Software and Platforms, Travel, US Federal Government, Utilities.
+    - FUNCTIONAL EXPERIENCE: Generate a concise, line-separated list (max 150 characters total) of the candidate’s functional expertise or focus areas.
+        Each line must have 3–5 words only (no sentences or achievements).
+        Select terms that reflect recognized job roles or processes within these categories only:
+           • Executive / Corporate (leadership, management, coordination)
+           • Technology / IT (software, data, SAP, cloud, product, QA, UX/UI)
+           • Supply Chain / Logistics (procurement, planning, inventory, demand, operations)
+           • Administration / Finance (accounting, payroll, treasury, billing, financial analysis)
+           • Customer Service / Commercial (sales, client support, commercial operations)
+        If no direct match exists, choose the nearest functional equivalent.
+        Do not include project descriptions, achievements, or soft skills.
+        Example: "SAP FI/MM configuration, Process automation, Financial analysis and reporting, Procurement and supplier management"
     - CERTIFICATIONS/TRAINING: Line-separated list of certification or training program names.
     - LANGUAGES: List only the languages and proficiency levels (e.g., English B2, Spanish Native). Each on a separate line. No bold or bullets. Use only the Common European Framework of Reference for Languages (A1, A2, B1, B2, C1, C2).
 
