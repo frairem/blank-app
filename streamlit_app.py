@@ -7,7 +7,8 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 from ai_functions import generate_one_pager
-from pptx_populator import populate_pptx
+from pptx_populator import *
+from pptx import Presentation
 
 # --------------------
 # Streamlit UI
