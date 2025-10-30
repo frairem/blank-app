@@ -44,8 +44,9 @@ def generate_sections(cv_text, section_name):
         • SAP ARIBA → procurement, sourcing, supplier, contracts, catalogs, SRM, or Ariba modules.
         • ORACLE → Oracle ERP Cloud, Oracle E-Business Suite (EBS), Oracle Fusion, or tasks related to financials, procurement, supply chain, or HCM using Oracle technologies.
         • If both SAP and data skills appear, pick CONTROL TOWER only if analytics/data focus is dominant.
-    - PROFILE OVERVIEW: One concise paragraph summarizing the candidate’s experience, skills, expertise, and key achievements. No names or languages. Bold **keywords**.
-    - PROFESSIONAL EDUCATION: List university-level degrees (e.g., Bachelor’s or Master’s), separated by line breaks. Do NOT repeat information. Do NOT mention High School information.
+    - PROFILE OVERVIEW: One concise paragraph summarizing the candidate’s experience, skills, expertise, and key achievements. No names or languages. Bold **keywords**. Maximun 520 characters.
+    - PROFESSIONAL EDUCATION: List university-level degrees (e.g., Bachelor’s or Master’s), separated by line breaks. Do NOT repeat information. Do NOT mention High School information. Do NOT mention Certifications.
+        Examples: "Bachelor of Mathematics, Industrial Engineer, Bachelor of Economics"
     - INDUSTRY EXPERIENCE: Line-separated list of sub-industries mapped to Accenture taxonomy (https://www.accenture.com/us-en/services). 
         This should be only one sub-industry per line. Map sub-industries as follows: Aerospace and Defense, Automotive, Banking, Capital Markets, 
         Chemicals, Communications and Media, Consumer Goods and Services, Energy, Health, High Tech, Industrial, Insurance, Life Science, Natural Resources, 
