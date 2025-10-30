@@ -1,6 +1,7 @@
-streamlit
 openai
 pdfplumber
 pandas
 openpyxl
 dotenv
+streamlit
+pptx
