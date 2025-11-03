@@ -55,13 +55,14 @@ def generate_sections(cv_text, section_name):
         Each line must have 3–5 words only (no sentences or achievements).
         Select terms that reflect recognized job roles or processes within these categories only:
            • Executive / Corporate (leadership, management, coordination)
-           • Technology / IT (software, data, SAP, cloud, product, QA, UX/UI)
+           • Technology / IT (software, data, SAP [SD/MM/FI/CO/etc.], cloud, product, QA, UX/UI)
            • Supply Chain / Logistics (procurement, planning, inventory, demand, operations)
            • Administration / Finance (accounting, payroll, treasury, billing, financial analysis)
            • Customer Service / Commercial (sales, client support, commercial operations)
         If no direct match exists, choose the nearest functional equivalent.
         Do not include project descriptions, achievements, or soft skills.
-        Example: "SAP FI/MM configuration, Process automation, Financial analysis and reporting, Procurement and supplier management"
+        Examples of format and style (not a full list):
+            “Data Analyst, Data Engineer, Logistics Coordinator, Inventory Analyst, Procurement Specialist, SAP Consultant MM”
     - CERTIFICATIONS/TRAINING: Line-separated list of certification or training program names.
     - LANGUAGES: List only the languages and proficiency levels (e.g., English B2, Spanish Native). Each on a separate line. No bold or bullets. Use only the Common European Framework of Reference for Languages (A1, A2, B1, B2, C1, C2).
 
@@ -98,7 +99,7 @@ def generate_roles(cv_text):
     - Keep output concise and professional English tone.
     - Do NOT use bullets or dashes — only separate lines with line breaks.
     - Exclude company names, institutions, and dates.
-    - Maximum of 4 roles. If fewer exist, only return those.
+    - Maximum of 4 roles. If fewer exist, only return those. Do NOT create new roles.
 
     Candidate CV:
     {cv_text}
