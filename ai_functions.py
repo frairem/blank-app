@@ -63,7 +63,8 @@ def generate_sections(cv_text, section_name):
         Do not include project descriptions, achievements, or soft skills.
         Examples of format and style (not a full list):
             “Data Analyst, Data Engineer, Logistics Coordinator, Inventory Analyst, Procurement Specialist, SAP Consultant MM”
-    - CERTIFICATIONS/TRAINING: Line-separated list of certification or training program names.
+    - CERTIFICATIONS/TRAINING: Line-separated list of certification, training program names or skills. Each line must have 1–4 words only.
+        Examples of format and style (not a full list): "Python, Microsoft Power BI​, SAP S/4HANA MM"
     - LANGUAGES: List only the languages and proficiency levels (e.g., English B2, Spanish Native). Each on a separate line. No bold or bullets. Use only the Common European Framework of Reference for Languages (A1, A2, B1, B2, C1, C2).
 
     Candidate CV:
