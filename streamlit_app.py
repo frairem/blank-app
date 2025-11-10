@@ -6,7 +6,7 @@ import json
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-from ai_functions import generate_one_pager
+from cv_process_sort_gen import *
 from populate_pptx import *
 from pptx import Presentation
 
@@ -17,6 +17,9 @@ st.title("📄 CV One Pager Generator")
 
 uploaded_pdf = st.file_uploader("Upload a CV in PDF format", type=["pdf"])
 
+## acá agregamos opción de tildar con el default == None
+flavor = None
+# perfil = input('Lo que quiere el usuario')
 if uploaded_pdf:
     with st.spinner("⏳ Generating PowerPoint..."):
         try:
