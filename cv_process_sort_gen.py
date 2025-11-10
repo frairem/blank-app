@@ -10,6 +10,7 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key = api_key)
 
+# Extrae texto. Esto está ok.
 def extract_text_from_pdf(pdf_path):
     """Extract text from all pages of the PDF."""
     text = ""
@@ -20,9 +21,32 @@ def extract_text_from_pdf(pdf_path):
                 text += page_text + "\n"
     return text.strip()
 
+# condicional, si queremos modificar el rol 
+def add_flavor(cv_txt, flavor):
+
+    """
+    cv_txt = Resultado de la función anterior, es un txt con lo extraido del CV original. 
+    flavor = Un desplegable que el usuario elige para adaptar el CV a un rol específico
+
+    Ejemplo: 
+
+    flavor = DE
+    """
+    with open(f"roles/{flavor}", "r", encoding="utf-8") as f:
+        prompt = f.read()
+    # modifique en función prompt 
+    response = client.chat.completions.create(
+    model="gpt-5-mini",
+    messages=[{"role": "user", "content": prompt, "reasoning-effort": "medium"}])
+    return response.choices[0].message.content.strip()
+
+
+
+
 
 def generate_sections(cv_text, section_name):
     """Generate one structured section (no bullets, bold keywords)."""
+    print("Sections to generate: ")
     prompt = f"""
     You are an AI assistant that summarizes a candidate CV into specific structured sections. Do NOT create new sections.
     Write the output in English.
@@ -117,11 +141,19 @@ def generate_roles(cv_text):
     roles = [r.strip() for r in text.split("\n\n") if r.strip()]
     return roles[:4]
 
-def generate_one_pager(cv_path, output_path="one_pager_summary.xlsx"):
+def generate_one_pager(cv_path, output_path="one_pager_summary.xlsx", flavor=None):
     """Generate all sections and return DataFrame."""
     try:
         cv_text = extract_text_from_pdf(cv_path)
+        #Opcional 
 
+
+        if flavor is not None: 
+            cv_text = add_flavor(cv_text, flavor)
+        else: 
+            pass 
+
+        
         sections = [
             "NAME",
             "TOWER",
