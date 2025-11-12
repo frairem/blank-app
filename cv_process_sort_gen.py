@@ -23,17 +23,24 @@ def extract_text_from_pdf(pdf_path):
 
 # condicional, si queremos modificar el rol 
 def add_flavor(cv_txt, flavor):
-
+    
     """
     cv_txt = Resultado de la función anterior, es un txt con lo extraido del CV original. 
     flavor = Un desplegable que el usuario elige para adaptar el CV a un rol específico
 
-    Ejemplo: 
-
-    flavor = DE
+    Ejemplo: flavor = DE --> Convierte un CV genérico en un CV adaptado a Data Engineer.
     """
     with open(f"roles/{flavor}", "r", encoding="utf-8") as f:
-        prompt = f.read()
+        prompt_flavor = f.read()
+    
+    prompt = f""" You are an AI assistant that modifies a candidate’s CV to better align with a specific role.
+    Use the following role description to guide your modifications:
+    {prompt_flavor}
+    
+    Using the specifications provided, adapt the following candidate CV:
+    {cv_txt}
+    """
+
     # modifique en función prompt 
     response = client.chat.completions.create(
     model="gpt-5-mini",
@@ -41,63 +48,18 @@ def add_flavor(cv_txt, flavor):
     return response.choices[0].message.content.strip()
 
 
-
-
-
-def generate_sections(cv_text, section_name):
-    """Generate one structured section (no bullets, bold keywords)."""
-    print("Sections to generate: ")
-    prompt = f"""
-    You are an AI assistant that summarizes a candidate CV into specific structured sections. Do NOT create new sections.
-    Write the output in English.
-    Return an dictionary where the section is the Key and the its information is the Value.
-
-    SECTIONS TO GENERATE: {section_name}
-
-    Formatting rules:
-    - Use line breaks to separate each idea or item. Do NOT use bullet symbols or dashes.
-    - Maintain concise, professional tone.
-    - Exclude candidate name, company names, institutions, and dates.
-    - Assume Graphik 9 font style.
-
-    Section details:
-    - NAME: Candidate’s name.
-    - TOWER: Choose ONLY ONE → SAP ARIBA, SAP S/4HANA, CONTROL TOWER or ORACLE.
-        • CONTROL TOWER → mentions SQL, Python, R, Power BI, Tableau, Looker, Alteryx, ETL, analytics, ML, automation, software development or data-driven tasks.
-        • SAP S/4HANA → SAP modules (FI, CO, MM, SD, PP, PM, etc.), Fiori, ABAP, or S/4HANA implementations.
-        • SAP ARIBA → procurement, sourcing, supplier, contracts, catalogs, SRM, or Ariba modules.
-        • ORACLE → Oracle ERP Cloud, Oracle E-Business Suite (EBS), Oracle Fusion, or tasks related to financials, procurement, supply chain, or HCM using Oracle technologies.
-        • If both SAP and data skills appear, pick CONTROL TOWER only if analytics/data focus is dominant.
-    - PROFILE OVERVIEW: One concise paragraph summarizing the candidate’s experience, skills, expertise, and key achievements. No names or languages. Bold **keywords**. Maximun 520 characters.
-    - PROFESSIONAL EDUCATION: List university-level degrees (e.g., Bachelor’s or Master’s), separated by line breaks. Do NOT repeat information. Do NOT mention High School information. Do NOT mention Certifications.
-        Examples: "Bachelor of Mathematics, Industrial Engineer, Bachelor of Economics"
-    - INDUSTRY EXPERIENCE: Line-separated list of sub-industries mapped to Accenture taxonomy (https://www.accenture.com/us-en/services). 
-        This should be only one sub-industry per line. Map sub-industries as follows: Aerospace and Defense, Automotive, Banking, Capital Markets, 
-        Chemicals, Communications and Media, Consumer Goods and Services, Energy, Health, High Tech, Industrial, Insurance, Life Science, Natural Resources, 
-        Public Service, Private Equity, Retail, Software and Platforms, Travel, US Federal Government, Utilities.
-    - FUNCTIONAL EXPERIENCE: Generate a concise, line-separated list (max 150 characters total) of the candidate’s functional expertise or focus areas.
-        Each line must have 3–5 words only (no sentences or achievements).
-        Select terms that reflect recognized job roles or processes within these categories only:
-           • Executive / Corporate (leadership, management, coordination)
-           • Technology / IT (software, data, SAP [SD/MM/FI/CO/etc.], cloud, product, QA, UX/UI)
-           • Supply Chain / Logistics (procurement, planning, inventory, demand, operations)
-           • Administration / Finance (accounting, payroll, treasury, billing, financial analysis)
-           • Customer Service / Commercial (sales, client support, commercial operations)
-        If no direct match exists, choose the nearest functional equivalent.
-        Do not include project descriptions, achievements, or soft skills.
-        Examples of format and style (not a full list):
-            “Data Analyst, Data Engineer, Logistics Coordinator, Inventory Analyst, Procurement Specialist, SAP Consultant MM”
-    - CERTIFICATIONS/TRAINING: Line-separated list of certification, training program names or skills. Each line must have 1–4 words only.
-        Examples of format and style (not a full list): "Python, Microsoft Power BI​, SAP S/4HANA MM"
-    - LANGUAGES: List only the languages and proficiency levels (e.g., English B2, Spanish Native). Each on a separate line. No bold or bullets. Use only the Common European Framework of Reference for Languages (A1, A2, B1, B2, C1, C2).
-
-    Candidate CV:
-    {cv_text}
+def generate_sections(cv_text, tower_selected):
+    with open(f"prompt_dictionary/{tower_selected.lower()}.md", "r", encoding="utf-8") as f:
+        file = f.read()
+    prompt_completed = f""" Generate one structured section (no bullets, bold keywords). 
+    Using this {file} 
+    
+    Candidate CV: {cv_text}
     """
 
     response = client.chat.completions.create(
         model="gpt-5-mini",
-        messages=[{"role": "user", "content": prompt, "reasoning-effort": "medium"}],
+        messages=[{"role": "user", "content": prompt_completed, "reasoning-effort": "medium"}],
     )
     return response.choices[0].message.content.strip()
 
@@ -141,33 +103,20 @@ def generate_roles(cv_text):
     roles = [r.strip() for r in text.split("\n\n") if r.strip()]
     return roles[:4]
 
-def generate_one_pager(cv_path, output_path="one_pager_summary.xlsx", flavor=None):
+def generate_one_pager(cv_path, flavor, tower_selected, output_path="one_pager_summary.xlsx"):
     """Generate all sections and return DataFrame."""
     try:
         cv_text = extract_text_from_pdf(cv_path)
-        #Opcional 
-
+        #Opcional
 
         if flavor is not None: 
             cv_text = add_flavor(cv_text, flavor)
         else: 
             pass 
 
-        
-        sections = [
-            "NAME",
-            "TOWER",
-            "PROFILE OVERVIEW",
-            "PROFESSIONAL EDUCATION",
-            "INDUSTRY EXPERIENCE",
-            "FUNCTIONAL EXPERIENCE",
-            "CERTIFICATIONS/TRAINING",
-            "LANGUAGES"
-        ]
-
         # Generate fixed sections
         print("🔹 Generating: SECTIONS...")
-        sections = generate_sections(cv_text, sections)
+        sections = generate_sections(cv_text, tower_selected)
         response_dic = json.loads(sections)
 
         # Generate dynamic roles
