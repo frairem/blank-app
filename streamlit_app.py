@@ -17,6 +17,29 @@ st.title("📄 CV One Pager Generator")
 
 uploaded_pdf = st.file_uploader("Upload a CV in PDF format", type=["pdf"])
 
+# --------------------
+# Choose Tower Section
+# --------------------
+st.markdown("### 🏗️ Choose the Tower")
+st.markdown(
+    """
+    **Disclaimer:** Please select the Tower that best represents the candidate’s area of expertise.
+    This selection will guide how the CV is interpreted and structured.
+    """
+)
+
+tower_selected = st.radio(
+    "Select one option:",
+    ["Control_Tower", "SAP", "ORACLE"],
+    horizontal=True
+)
+
+flavor = st.radio(
+    "Select one option:",
+    #Dictionary flavors[['Tower'] == tower_selected.lower()]',
+    horizontal=True
+)
+
 ## acá agregamos opción de tildar con el default == None
 flavor = None
 # perfil = input('Lo que quiere el usuario')

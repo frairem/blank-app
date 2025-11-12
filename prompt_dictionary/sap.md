@@ -2,6 +2,17 @@
     Write the output in English.
     Return an dictionary where the section is the Key and the its information is the Value.
 
+    SECTIONS TO GENERATE: [
+            "NAME",
+            "TOWER",
+            "PROFILE OVERVIEW",
+            "PROFESSIONAL EDUCATION",
+            "INDUSTRY EXPERIENCE",
+            "FUNCTIONAL EXPERIENCE",
+            "CERTIFICATIONS/TRAINING",
+            "LANGUAGES"
+        ]
+
     Formatting rules:
     - Use line breaks to separate each idea or item. Do NOT use bullet symbols or dashes.
     - Maintain concise, professional tone.
