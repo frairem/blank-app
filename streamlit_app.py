@@ -20,34 +20,47 @@ uploaded_pdf = st.file_uploader("Upload a CV in PDF format", type=["pdf"])
 # --------------------
 # Choose Tower Section
 # --------------------
-st.markdown("### 🏗️ Choose the Tower")
+file_name = 'tower_flavor.json' 
+
+with open(file_name, 'r') as file:
+    tower_flavor_df = json.load(file)
+
+
+
+st.markdown("🏗️ Choose the Tower")
 st.markdown(
     """
-    **Disclaimer:** Please select the Tower that best represents the candidate’s area of expertise.
+    Select the Tower that best represents the candidate’s area of expertise.
     This selection will guide how the CV is interpreted and structured.
     """
 )
-
+tower_options = list(tower_flavor_df.keys()) + ["None"]
 tower_selected = st.radio(
-    "Select one option:",
-    ["Control_Tower", "SAP", "ORACLE"],
+    "Tower:",
+    tower_options,
     horizontal=True
 )
+tower_selected = None if tower_selected == "None" else tower_selected
 
+flavor_options = tower_flavor_df[tower_selected] + ["None"] if tower_selected else ["None"]
+st.markdown("🎯 Select the Candidate Profile")
+st.markdown(
+    "This selection will refine the CV to better match the candidate’s target role based on the selected tower. "
+    "Choose **None** if you want to keep the CV in its original form."
+)
 flavor = st.radio(
-    "Select one option:",
-    #Dictionary flavors[['Tower'] == tower_selected.lower()]',
+    "Profile:",
+    flavor_options,
     horizontal=True
 )
+flavor = None if flavor == "None" else flavor
 
-## acá agregamos opción de tildar con el default == None
-flavor = None
-# perfil = input('Lo que quiere el usuario')
+# --------------------
 if uploaded_pdf:
     with st.spinner("⏳ Generating PowerPoint..."):
         try:
             # 1️⃣ Extract and structure CV content
-            df = generate_one_pager(uploaded_pdf)
+            df = generate_one_pager(cv_path = uploaded_pdf, tower_selected = tower_selected, flavor = flavor)
 
             # (optional: save CSV if you want for debugging)
             # df.to_csv("data/output/temp_summary.csv", index=False)
