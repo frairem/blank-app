@@ -30,7 +30,7 @@ def add_flavor(cv_txt, flavor):
 
     Ejemplo: flavor = DE --> Convierte un CV genérico en un CV adaptado a Data Engineer.
     """
-    with open(f"roles/{flavor}", "r", encoding="utf-8") as f:
+    with open(f"roles/{flavor}.md", "r", encoding="utf-8") as f:
         prompt_flavor = f.read()
     
     prompt = f""" You are an AI assistant that modifies a candidate’s CV to better align with a specific role.
