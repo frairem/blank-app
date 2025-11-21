@@ -34,15 +34,16 @@ st.markdown(
     This selection will guide how the CV is interpreted and structured.
     """
 )
-tower_options = list(tower_flavor_df.keys()) + ["None"]
+tower_options = list(tower_flavor_df.keys()) + None
 tower_selected = st.radio(
     "Tower:",
     tower_options,
-    horizontal=True
+    horizontal=True,
+    index=None
 )
-tower_selected = None if tower_selected == "None" else tower_selected
+# tower_selected = None if tower_selected == "Ninguno" else tower_selected
 
-flavor_options = tower_flavor_df[tower_selected] + ["None"] if tower_selected else ["None"]
+flavor_options = tower_flavor_df[tower_selected] if tower_selected else None
 st.markdown("🎯 Select the Candidate Profile")
 st.markdown(
     "This selection will refine the CV to better match the candidate’s target role based on the selected tower. "
@@ -51,9 +52,10 @@ st.markdown(
 flavor = st.radio(
     "Profile:",
     flavor_options,
-    horizontal=True
+    horizontal=True,
+    index=None
 )
-flavor = None if flavor == "None" else flavor
+# flavor = None if flavor == "None" else flavor
 
 # --------------------
 if uploaded_pdf:
