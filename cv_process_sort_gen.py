@@ -49,14 +49,26 @@ def add_flavor(cv_txt, flavor):
 
 
 def generate_sections(cv_text, tower_selected):
-    with open(f"prompt_dictionary/{tower_selected.lower()}.md", "r", encoding="utf-8") as f:
-        file = f.read()
-    prompt_completed = f""" Generate one structured section (no bullets, bold keywords). 
-    Using this {file} 
-    
-    Candidate CV: {cv_text}
-    """
+    """ Esta función toma como input el texto del CV (con o sin flavor) y llama al prompt segun la 
+    torre seleccionada a fin de generar las secciones fijas del one-pager. Si el usuario no selecciona torre,
+    se usa el prompt default.md, el cuál identifica la torre según el contenido del CV."""
 
+    if tower_selected is not None:
+        with open(f"prompt_dictionary/{tower_selected.lower()}.md", "r", encoding="utf-8") as f:
+            file = f.read()
+        prompt_completed = f""" Generate one structured section (no bullets, bold keywords). 
+        Using this {file} 
+        
+        Candidate CV: {cv_text}
+        """
+    else:
+        with open(f"prompt_dictionary/default.md", "r", encoding="utf-8") as f:
+            file = f.read()
+        prompt_completed = f""" Generate one structured section (no bullets, bold keywords). 
+        Using this {file} 
+        
+        Candidate CV: {cv_text}
+        """
     response = client.chat.completions.create(
         model="gpt-5-mini",
         messages=[{"role": "user", "content": prompt_completed, "reasoning-effort": "medium"}],
