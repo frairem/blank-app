@@ -23,6 +23,12 @@ def inject_custom_css():
             color: #FFFFFF;
         }
         
+        /* Main content area background */
+        .main .block-container {
+            background-color: #000000;
+            padding-top: 2rem;
+        }
+        
         /* Headers styling */
         h1, h2, h3 {
             color: #A100FF !important;  /* Accenture Purple */
@@ -30,38 +36,50 @@ def inject_custom_css():
             font-weight: 600;
         }
         
-        /* Main title with gradient */
-        .main-title {
-            background: linear-gradient(45deg, #A100FF, #00B2FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2.5rem !important;
-            font-weight: 700 !important;
-            text-align: center;
-            margin-bottom: 2rem !important;
+        /* Regular text color */
+        p, div, span {
+            color: #E0E0E0 !important;
         }
         
-        /* Card-like containers for sections */
-        .section-container {
-            background-color: #1A1A1A;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid #A100FF;
+        /* Radio button labels and options */
+        .stRadio label {
+            color: #FFFFFF !important;
+            font-weight: 500;
         }
         
-        /* File uploader styling */
+        .stRadio [data-testid="stMarkdownContainer"] p {
+            color: #FFFFFF !important;
+        }
+        
+        /* File uploader text color */
+        .stFileUploader label {
+            color: #FFFFFF !important;
+            font-weight: 600;
+        }
+        
+        .stFileUploader [data-testid="stMarkdownContainer"] {
+            color: #E0E0E0 !important;
+        }
+        
+        /* File uploader dropzone styling */
         .stFileUploader > div {
-            background-color: #2D2D2D !important;
+            background-color: #1A1A1A !important;
             border: 2px dashed #A100FF !important;
             border-radius: 10px !important;
+            color: #E0E0E0 !important;
         }
         
-        /* Radio button styling */
+        .stFileUploader > div [data-testid="stMarkdownContainer"] p {
+            color: #E0E0E0 !important;
+        }
+        
+        /* Radio button container styling */
         .stRadio > div {
-            background-color: #2D2D2D;
-            padding: 1rem;
-            border-radius: 8px;
+            background-color: #1A1A1A;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #333333;
+            margin: 1rem 0;
         }
         
         /* Button styling */
@@ -88,13 +106,22 @@ def inject_custom_css():
             background-color: #1A3A1A !important;
             border: 1px solid #00CC00 !important;
             border-radius: 8px !important;
+            color: #FFFFFF !important;
         }
         
         /* Warning and info messages */
-        .stWarning, .stInfo {
-            background-color: #2D2D2D !important;
+        .stWarning {
+            background-color: #332900 !important;
+            border: 1px solid #FFB300 !important;
             border-radius: 8px !important;
-            border-left: 4px solid #FFB300 !important;
+            color: #FFFFFF !important;
+        }
+        
+        .stInfo {
+            background-color: #1A2A3A !important;
+            border: 1px solid #00B2FF !important;
+            border-radius: 8px !important;
+            color: #FFFFFF !important;
         }
         
         /* Download button specific styling */
@@ -107,9 +134,8 @@ def inject_custom_css():
         .logo-container {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background-color: #000000;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
             border-bottom: 2px solid #A100FF;
         }
         
@@ -119,11 +145,6 @@ def inject_custom_css():
             margin-right: 15px;
         }
         
-        /* Header text next to logo */
-        .header-text {
-            flex-grow: 1;
-        }
-        
         /* Progress spinner color */
         .stSpinner > div {
             border-color: #A100FF !important;
@@ -131,15 +152,26 @@ def inject_custom_css():
         
         /* Dataframe styling in expander */
         .dataframe {
-            background-color: #2D2D2D !important;
+            background-color: #1A1A1A !important;
             color: white !important;
         }
         
         /* Expander styling */
         .streamlit-expanderHeader {
-            background-color: #2D2D2D !important;
+            background-color: #1A1A1A !important;
             color: white !important;
             border-radius: 8px !important;
+            border: 1px solid #333333 !important;
+        }
+        
+        .streamlit-expanderContent {
+            background-color: #1A1A1A !important;
+            color: white !important;
+        }
+        
+        /* Metric styling */
+        [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
+            color: #FFFFFF !important;
         }
         
         /* Hide default Streamlit branding */
@@ -147,6 +179,11 @@ def inject_custom_css():
         footer {visibility: hidden;}
         .stDeployButton {display:none;}
         header {visibility: hidden;}
+        
+        /* Section spacing */
+        .section-spacing {
+            margin: 2rem 0;
+        }
         
         </style>
     """, unsafe_allow_html=True)
@@ -161,7 +198,7 @@ col1, col2 = st.columns([1, 4])
 with col1:
     try:
         # Load and display Accenture logo
-        logo = Image.open("accenture-logo.png")
+        logo = Image.open("accenture-logo.png")  # Make sure the logo is in the same directory
         st.image(logo, width=120)
     except:
         # Fallback if logo file is not found
@@ -173,7 +210,7 @@ with col1:
 
 with col2:
     st.markdown("""
-        <div class="header-text">
+        <div style='padding-top: 0.5rem;'>
             <h1 style='margin:0; color: #A100FF !important;'>📄 CV One Pager Generator</h1>
             <p style='margin:0; color: #CCCCCC; font-size: 1rem;'>AI-Powered CV Processing Solution</p>
         </div>
@@ -186,10 +223,10 @@ st.markdown("---")
 # --------------------
 
 # File Upload Section
-st.markdown('<div class="section-container">', unsafe_allow_html=True)
 st.markdown("### 📁 Upload CV")
 uploaded_pdf = st.file_uploader("Upload a CV in PDF format", type=["pdf"], help="Please upload the candidate's CV in PDF format")
-st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="section-spacing"></div>', unsafe_allow_html=True)
 
 # --------------------
 # Choose Tower Section
@@ -206,7 +243,6 @@ if 'flavor_selected' not in st.session_state:
     st.session_state.flavor_selected = None
 
 # Tower Selection
-st.markdown('<div class="section-container">', unsafe_allow_html=True)
 st.markdown("### 🏗️ Choose the Tower")
 st.markdown(
     """
@@ -217,7 +253,7 @@ st.markdown(
 
 tower_options = list(tower_flavor_df.keys())
 tower_selected = st.radio(
-    "Tower:",
+    "Select Tower:",
     tower_options,
     horizontal=True,
     index=None,
@@ -228,11 +264,11 @@ tower_selected = st.radio(
 if tower_selected != st.session_state.tower_selected:
     st.session_state.tower_selected = tower_selected
     st.session_state.flavor_selected = None  # Reset flavor when tower changes
-st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="section-spacing"></div>', unsafe_allow_html=True)
 
 # Flavor Selection (only shown when tower is selected)
 if st.session_state.tower_selected:
-    st.markdown('<div class="section-container">', unsafe_allow_html=True)
     flavor_options = tower_flavor_df[st.session_state.tower_selected]
     
     st.markdown("### 🎯 Select the Candidate Profile")
@@ -245,7 +281,7 @@ if st.session_state.tower_selected:
     flavor_options_with_none = ["None"] + flavor_options
     
     flavor = st.radio(
-        "Profile:",
+        "Select Profile:",
         flavor_options_with_none,
         horizontal=True,
         index=0,  # Default to "None"
@@ -258,13 +294,13 @@ if st.session_state.tower_selected:
     
     # Convert "None" to actual None
     flavor = None if flavor == "None" else flavor
-    st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('<div class="section-spacing"></div>', unsafe_allow_html=True)
 
 # --------------------
 # Generate Section
 # --------------------
 if uploaded_pdf and st.session_state.tower_selected:
-    st.markdown('<div class="section-container">', unsafe_allow_html=True)
     st.markdown("### 🚀 Generate One-Pager")
     
     # Add a generate button for better UX
@@ -299,39 +335,18 @@ if uploaded_pdf and st.session_state.tower_selected:
                     st.metric("Profile", profile_display)
 
                 # 4️⃣ Provide download button
-                st.markdown('<div class="download-btn">', unsafe_allow_html=True)
                 st.download_button(
                     label="📊 Download OnePager",
                     data=pptx_bytes,
                     file_name="OnePager.pptx",
                     mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
                 )
-                st.markdown('</div>', unsafe_allow_html=True)
 
             except Exception as e:
                 st.error(f"❌ Error while generating PowerPoint: {str(e)}")
                 st.info("💡 Tip: Check if the PDF is readable and contains text content.")
-    st.markdown('</div>', unsafe_allow_html=True)
     
 elif uploaded_pdf and not st.session_state.tower_selected:
-    st.markdown('<div class="section-container">', unsafe_allow_html=True)
     st.warning("⚠️ Please select a Tower to generate the one-pager.")
-    st.markdown('</div>', unsafe_allow_html=True)
 elif not uploaded_pdf:
-    st.markdown('<div class="section-container">', unsafe_allow_html=True)
     st.info("📁 Please upload a PDF file to get started.")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# --------------------
-# Footer
-# --------------------
-st.markdown("---")
-st.markdown(
-    """
-    <div style='text-align: center; color: #666; font-size: 0.9rem;'>
-        <img src='https://www.accenture.com/favicon.ico' width='16' style='vertical-align: middle; margin-right: 8px;'>
-        Powered by Accenture AI • Professional CV Processing Solution
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
