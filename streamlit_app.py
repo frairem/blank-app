@@ -61,7 +61,7 @@ def inject_custom_css():
             color: #E0E0E0 !important;
         }
         
-        /* File uploader dropzone styling */
+        /* File uploader dropzone styling - MATCHING RADIO BUTTONS */
         .stFileUploader > div {
             background-color: #1A1A1A !important;
             border: 2px dashed #A100FF !important;
@@ -71,6 +71,16 @@ def inject_custom_css():
         
         .stFileUploader > div [data-testid="stMarkdownContainer"] p {
             color: #E0E0E0 !important;
+        }
+        
+        /* Specific targeting for the drag and drop area */
+        section[data-testid="stFileUploader"] > div {
+            background-color: #1A1A1A !important;
+        }
+        
+        /* Target the drag and drop text specifically */
+        .stFileUploader .css-1kyxreq {
+            background-color: #1A1A1A !important;
         }
         
         /* Radio button container styling */
@@ -183,6 +193,15 @@ def inject_custom_css():
         /* Section spacing */
         .section-spacing {
             margin: 2rem 0;
+        }
+        
+        /* Additional specific styling for file uploader inner content */
+        div[data-testid="stFileUploader"] > div > div {
+            background-color: #1A1A1A !important;
+        }
+        
+        .css-1kyxreq {
+            background-color: #1A1A1A !important;
         }
         
         </style>
