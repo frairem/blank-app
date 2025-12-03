@@ -217,7 +217,7 @@ col1, col2 = st.columns([1, 4])
 with col1:
     try:
         # Load and display Accenture logo
-        logo = Image.open("accenture-logo.png")  # Make sure the logo is in the same directory
+        logo = Image.open("accenture-logo.png")
         st.image(logo, width=120)
     except:
         # Fallback if logo file is not found
